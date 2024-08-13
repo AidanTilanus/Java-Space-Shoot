@@ -1,0 +1,23 @@
+package com.aidant.spaceshooter.entity;
+
+import com.aidant.spaceshooter.GamePanel;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+public class Entity {
+
+	public GamePanel gp;
+
+	public int x, y;
+
+	public BufferedImage image;
+	public int imageSize = 8;
+
+	public void update() { }
+
+	public void draw(Graphics2D g2) {
+
+		g2.drawImage(image, x, y, image.getWidth() * gp.scale, image.getHeight() * gp.scale, null);
+	}
+}
