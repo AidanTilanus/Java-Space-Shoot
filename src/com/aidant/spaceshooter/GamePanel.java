@@ -6,8 +6,11 @@ import com.aidant.spaceshooter.entity.Player;
 import com.aidant.spaceshooter.entity.obstacles.Astroid;
 import com.aidant.spaceshooter.entity.obstacles.Obstacle;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,12 +25,14 @@ public class GamePanel extends JPanel implements Runnable {
 	//FPS
 	int FPS = 60;
 
-	Random random = new Random();
+	Random random = new Random(69420);
 	KeyHandler keyH = new KeyHandler();
 	Thread gameThread;
 
-	public int spawnCooldown = 10; //1 second because it uses frames
+	public int spawnCooldown = 30; // 1 second is 60
 	public int currentSpawnCooldownTime = 0;
+
+	public BufferedImage backgroundImage;
 
 	public ArrayList<Laser> lasers = new ArrayList<>();
 	public ArrayList<Obstacle> obstacles = new ArrayList<>();
@@ -52,6 +57,13 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
+
+		try {
+			backgroundImage = ImageIO.read(getClass().getResourceAsStream("/BackGrounds.png"));
+			backgroundImage = backgroundImage.getSubimage(0, 0, 128, 256);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		double drawInterval = 1_000_000_000 / FPS;
 		double delta = 0;
@@ -90,7 +102,8 @@ public class GamePanel extends JPanel implements Runnable {
 		if (currentSpawnCooldownTime <= 0) {
 			Obstacle newObstacle = new Astroid(this, keyH);
 
-			newObstacle.x = random.nextInt(screenWidth * scale);
+			int borderMargin = (newObstacle.image.getWidth() * scale) / 2;
+			newObstacle.x = random.nextInt(borderMargin, screenWidth - borderMargin);
 			newObstacle.y = -16;
 
 			obstacles.add(newObstacle);
@@ -118,6 +131,8 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D)g;
+
+		g2.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight, null);
 
 		for(Entity obstacle : obstacles) {
 			obstacle.draw(g2);

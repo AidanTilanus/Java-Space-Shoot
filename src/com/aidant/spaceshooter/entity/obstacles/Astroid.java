@@ -20,14 +20,14 @@ public class Astroid extends Obstacle {
 		this.keyH = keyH;
 
 		setDefaultValues();
-		getPlayerImage();
+		getImage();
 	}
 
 	public void setDefaultValues() {
 		speed = 4;
 	}
 
-	public void getPlayerImage() {
+	public void getImage() {
 		try {
 
 			BufferedImage spriteAtlas = ImageIO.read(getClass().getResourceAsStream("/Miscellaneous.png"));

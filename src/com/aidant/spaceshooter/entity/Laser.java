@@ -19,14 +19,14 @@ public class Laser extends Entity {
 		this.keyH = keyH;
 
 		setDefaultValues();
-		getPlayerImage();
+		getLaserImage();
 	}
 
 	public void setDefaultValues() {
 		speed = 5;
 	}
 
-	public void getPlayerImage() {
+	public void getLaserImage() {
 		try {
 
 			BufferedImage spriteAtlas = ImageIO.read(getClass().getResourceAsStream("/Projectiles.png"));
