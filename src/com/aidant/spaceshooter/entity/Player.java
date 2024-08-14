@@ -2,6 +2,7 @@ package com.aidant.spaceshooter.entity;
 
 import com.aidant.spaceshooter.GamePanel;
 import com.aidant.spaceshooter.KeyHandler;
+import com.aidant.spaceshooter.SoundEffect;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -58,6 +59,8 @@ public class Player extends Entity {
 		}
 
 		if(keyH.spacePressed && shootCooldown <= 0) {
+			SoundEffect.playSound("/sfx/shoot.wav");
+
 			Laser laser = new Laser(gp, keyH);
 
 			laser.x = x;
