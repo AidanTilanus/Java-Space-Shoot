@@ -12,7 +12,8 @@ public class Player extends Entity {
 
 	KeyHandler keyH;
 
-	public int speed = 4;
+	public int speed;
+	private int shootCooldown = 0;
 
 	BufferedImage leftImage, middleImage, rightImage;
 
@@ -29,6 +30,7 @@ public class Player extends Entity {
 		x = gp.screenWidth / 2; // half of the screen width.
 		y = gp.screenHeight - 100; // 100 pixel above the bottom of the screen.
 		speed = 5;
+		shootCooldown = 20;
 	}
 
 	public void getPlayerImage() {
@@ -53,6 +55,21 @@ public class Player extends Entity {
 		}
 		if(keyH.rightPressed) {
 			x += speed;
+		}
+
+		if(keyH.spacePressed && shootCooldown <= 0) {
+			Laser laser = new Laser(gp, keyH);
+
+			laser.x = x;
+			laser.y = y;
+
+			gp.lasers.add(laser);
+
+			shootCooldown = 10; // the amount of frames between shot. (min)
+		}
+
+		if(shootCooldown > 0) {
+			shootCooldown--;
 		}
 
 		update_animation();

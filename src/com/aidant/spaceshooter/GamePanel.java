@@ -1,9 +1,11 @@
 package com.aidant.spaceshooter;
 
+import com.aidant.spaceshooter.entity.Laser;
 import com.aidant.spaceshooter.entity.Player;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -18,6 +20,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	KeyHandler keyH = new KeyHandler();
 	Thread gameThread;
+
+	public ArrayList<Laser> lasers = new ArrayList<>();
 
 	// Declare Entities
 	Player player = new Player(this, keyH);
@@ -73,6 +77,11 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void update() {
 
+		for(Laser laser : lasers) {
+			laser.update();
+		}
+		lasers.removeIf(Laser::isOfScreen);
+
 		player.update();
 	}
 
@@ -81,6 +90,10 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D)g;
+
+		for(Laser laser : lasers) {
+			laser.draw(g2);
+		}
 
 		player.draw(g2);
 

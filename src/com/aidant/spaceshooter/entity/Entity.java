@@ -11,7 +11,7 @@ public class Entity {
 
 	public int x, y;
 
-	public BufferedImage image;
+	public BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
 	public int imageSize = 8;
 
 	public void update() { }
