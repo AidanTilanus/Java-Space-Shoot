@@ -5,6 +5,8 @@ import com.aidant.spaceshooter.entity.Laser;
 import com.aidant.spaceshooter.entity.Player;
 import com.aidant.spaceshooter.entity.obstacles.Astroid;
 import com.aidant.spaceshooter.entity.obstacles.Obstacle;
+import com.aidant.spaceshooter.SoundEffect;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -57,6 +59,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
+
+		SoundEffect.preloadSound("/sfx/shoot.wav");
+		SoundEffect.preloadSound("/sfx/explosion.wav");
 
 		try {
 			backgroundImage = ImageIO.read(getClass().getResourceAsStream("/BackGrounds.png"));
