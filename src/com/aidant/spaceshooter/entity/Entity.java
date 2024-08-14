@@ -18,6 +18,8 @@ public class Entity {
 
 	public void draw(Graphics2D g2) {
 
-		g2.drawImage(image, x, y, image.getWidth() * gp.scale, image.getHeight() * gp.scale, null);
+		int halfWidth = (image.getWidth() * gp.scale) / 2;
+		g2.drawImage(image, x - halfWidth, y, image.getWidth() * gp.scale, image.getHeight() * gp.scale, null);
 	}
+
 }

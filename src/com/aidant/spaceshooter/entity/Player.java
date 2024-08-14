@@ -14,6 +14,8 @@ public class Player extends Entity {
 
 	public int speed = 4;
 
+	BufferedImage leftImage, middleImage, rightImage;
+
 	public Player(GamePanel gp, KeyHandler keyH) {
 
 		this.gp = gp;
@@ -32,9 +34,12 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		try {
 
+			int shipAtlasY = 32;
 			BufferedImage spriteAtlas = ImageIO.read(getClass().getResourceAsStream("/Ships.png"));
 
-			image = spriteAtlas.getSubimage(8, 32, 8, 8);
+			leftImage = spriteAtlas.getSubimage(0, shipAtlasY, 8, 8);
+			middleImage = spriteAtlas.getSubimage(8, shipAtlasY, 8, 8);
+			rightImage = spriteAtlas.getSubimage(16, shipAtlasY, 8, 8);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,11 +54,27 @@ public class Player extends Entity {
 		if(keyH.rightPressed) {
 			x += speed;
 		}
+
+		update_animation();
+
+		int borderMargin = (image.getWidth() * gp.scale) / 2;
+		if(x > gp.screenWidth - borderMargin) {
+			x = gp.screenWidth - borderMargin;
+		}
+		else if (x < borderMargin) {
+			x = borderMargin;
+		}
 	}
 
-	@Override
-	public void draw(Graphics2D g2) {
-
-		g2.drawImage(image, x, y, image.getWidth() * gp.scale, image.getHeight() * gp.scale, null);
+	void update_animation() {
+		if (keyH.leftPressed && !keyH.rightPressed) {
+			image = leftImage;
+		}
+		else if(keyH.rightPressed && !keyH.leftPressed) {
+			image = rightImage;
+		}
+		else {
+			image = middleImage;
+		}
 	}
 }
