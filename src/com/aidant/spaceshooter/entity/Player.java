@@ -59,7 +59,7 @@ public class Player extends Entity {
 		}
 
 		if(keyH.spacePressed && shootCooldown <= 0) {
-			SoundEffect.playSound("/sfx/shoot.wav");
+			SoundEffect.playSound("/sfx/shoot.wav", 0.5f);
 
 			Laser laser = new Laser(gp, keyH);
 
