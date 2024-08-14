@@ -64,14 +64,14 @@ public class Player extends Entity {
 			Laser laser = new Laser(gp, keyH);
 
 			laser.x = x;
-			laser.y = y;
+			laser.y = y - (4 * gp.scale);
 
 			gp.lasers.add(laser);
 
-			shootCooldown = 10; // the amount of frames between shot. (min)
+			shootCooldown = 5; // the amount of frames between shot. (min)
 		}
 
-		if(shootCooldown > 0) {
+		if(shootCooldown > 0 && !keyH.spacePressed) {
 			shootCooldown--;
 		}
 
