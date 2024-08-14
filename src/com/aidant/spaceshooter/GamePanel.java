@@ -1,11 +1,15 @@
 package com.aidant.spaceshooter;
 
+import com.aidant.spaceshooter.entity.Entity;
 import com.aidant.spaceshooter.entity.Laser;
 import com.aidant.spaceshooter.entity.Player;
+import com.aidant.spaceshooter.entity.obstacles.Astroid;
+import com.aidant.spaceshooter.entity.obstacles.Obstacle;
 
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -18,10 +22,15 @@ public class GamePanel extends JPanel implements Runnable {
 	//FPS
 	int FPS = 60;
 
+	Random random = new Random();
 	KeyHandler keyH = new KeyHandler();
 	Thread gameThread;
 
+	public int spawnCooldown = 10; //1 second because it uses frames
+	public int currentSpawnCooldownTime = 0;
+
 	public ArrayList<Laser> lasers = new ArrayList<>();
+	public ArrayList<Obstacle> obstacles = new ArrayList<>();
 
 	// Declare Entities
 	Player player = new Player(this, keyH);
@@ -77,6 +86,25 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void update() {
 
+		//FIXME - make it so it can have more that just Astroid
+		if (currentSpawnCooldownTime <= 0) {
+			Obstacle newObstacle = new Astroid(this, keyH);
+
+			newObstacle.x = random.nextInt(screenWidth * scale);
+			newObstacle.y = -16;
+
+			obstacles.add(newObstacle);
+
+			currentSpawnCooldownTime = spawnCooldown;
+		}
+
+		currentSpawnCooldownTime--;
+
+		for(Entity obstacle : obstacles) {
+			obstacle.update();
+		}
+		obstacles.removeIf(Obstacle::isOfScreen);
+
 		for(Laser laser : lasers) {
 			laser.update();
 		}
@@ -90,6 +118,10 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D)g;
+
+		for(Entity obstacle : obstacles) {
+			obstacle.draw(g2);
+		}
 
 		for(Laser laser : lasers) {
 			laser.draw(g2);
