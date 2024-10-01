@@ -1,21 +1,25 @@
 package com.aidant.spaceshooter;
 
+import com.aidant.spaceshooter.entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
-    final int scale = 3;
+    public final int scale = 3;
 
-    final int screenWidth = 128 * scale;
-    final int screenHeight = 256 * scale;
+    public final int screenWidth = 128 * scale;
+    public final int screenHeight = 256 * scale;
 
     // FPS
     int FPS = 60;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
+
+    Player player = new Player(this, keyH);
 
     public GamePanel() {
 
@@ -63,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -70,5 +75,9 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
+
+        player.draw(g2);
+
+        g2.dispose();
     }
 }
